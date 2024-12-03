@@ -1,0 +1,42 @@
+<header class="bg-white shadow-sm">
+  <nav class="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+    <div class="flex items-center">
+      <a routerLink="/" class="text-xl font-bold text-sky-700">FleetMaster</a>
+    </div>
+    <div>
+      <div class="ml-10 flex items-baseline space-x-4">
+        <a routerLink="#features" class="text-sky-600 hover:text-sky-800 px-3 py-2 rounded-md text-sm font-medium">
+          Features
+        </a>
+        <a routerLink="#" class="text-sky-600 hover:text-sky-800 px-3 py-2 rounded-md text-sm font-medium">
+          Pricing
+        </a>
+        <a routerLink="#" class="text-sky-600 hover:text-sky-800 px-3 py-2 rounded-md text-sm font-medium">
+          About
+        </a>
+        <a routerLink="#" class="text-sky-600 hover:text-sky-800 px-3 py-2 rounded-md text-sm font-medium">
+          Contact
+        </a>
+      </div>
+    </div>
+    <div>
+      <!-- Buttons rendered conditionally -->
+      <ng-container *ngIf="!isLoggedIn; else loggedInTemplate">
+        <button routerLink="/login" class="mr-2 border border-sky-600 text-sky-600 px-4 py-2 rounded-md hover:bg-sky-100">
+          Log in
+        </button>
+        <button routerLink="/register" class="bg-sky-600 text-white px-4 py-2 rounded-md hover:bg-sky-700">
+          Sign up
+        </button>
+      </ng-container>
+      <ng-template #loggedInTemplate>
+        <button routerLink="/admin-dashboard" class="mr-2 border border-sky-600 text-sky-600 px-4 py-2 rounded-md hover:bg-sky-100">
+          Dashboard
+        </button>
+        <button (click)="logout()" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">
+          Logout
+        </button>
+      </ng-template>
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,51 @@
+<div class="min-h-screen bg-gradient-to-b from-sky-50 to-sky-100 flex items-center justify-center">
+  <!-- Card Container -->
+  <div class="w-full max-w-md bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="px-6 py-4">
+      <h2 class="text-2xl font-bold text-sky-800">Welcome Back</h2>
+      <p class="text-sky-600">Login to manage your fleet</p>
+    </div>
+
+    <!-- Card Content -->
+    <div class="px-6 py-4">
+      <form>
+        <div class="space-y-4">
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              [(ngModel)]="loginObj.email"
+              placeholder="Enter your email"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+            />
+          </div>
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              [(ngModel)]="loginObj.password"
+              placeholder="Enter your password"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Card Footer -->
+    <div class="px-6 py-4 flex flex-col space-y-4">
+      <button class="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700" (click)="onlogin()">Log in</button>
+      <div class="text-sm text-center text-sky-600">
+        Don't have an account?
+        <a routerLink="/register" class="font-medium text-sky-800 hover:underline">Sign up</a> <br>
+        <a routerLink="/" class="font-medium text-sky-800 hover:underline">Go back</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,93 @@
+<div class="min-h-screen bg-gradient-to-b from-sky-50 to-sky-100 flex items-center justify-center">
+  <!-- Card Container -->
+  <div class="w-full max-w-md bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="px-6 py-4">
+      <h2 class="text-2xl font-bold text-sky-800">Create an Account</h2>
+      <p class="text-sky-600">Sign up to start managing your fleet</p>
+    </div>
+
+    <!-- Card Content -->
+    <div class="px-6 py-4">
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <div class="space-y-4">
+          <div>
+            <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+            <input
+              id="username"
+              type="text"
+              formControlName="username"
+              placeholder="Enter your username"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+            />
+          </div>
+
+          <div>
+            <label for="phoneno" class="block text-sm font-medium text-gray-700">Phone Number</label>
+            <input
+              id="phoneno"
+              type="tel"
+              formControlName="phoneno"
+              placeholder="Enter your phone number"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+            />
+          </div>
+
+          <div>
+            <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
+            <select
+              id="role"
+              formControlName="role"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+            >
+              <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="Enter your email"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+            />
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <input
+              id="password"
+              type="password"
+              formControlName="password"
+              placeholder="Create a password"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+            />
+          </div>
+        </div>
+
+        <div class="flex justify-center py-4">
+          <button
+            type="submit"
+            [disabled]="signupForm.invalid"
+            class="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700"
+          >
+            Sign up
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Card Footer -->
+    <div class="px-6 py-4 text-sm text-center text-sky-600">
+      Already have an account? 
+      <a routerLink="/login" class="font-medium text-sky-800 hover:underline">Log in</a> <br>
+      <a routerLink="/" class="font-medium text-sky-800 hover:underline">Go back</a>
+    </div>
+  </div>
+</div>
