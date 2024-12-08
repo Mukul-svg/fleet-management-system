@@ -1,0 +1,49 @@
+<div class="min-h-screen bg-sky-50">
+    <div class="container mx-auto py-8">
+      <h1 class="text-3xl font-bold text-sky-800 mb-6">Fleet Management</h1>
+  
+      <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <table mat-table [dataSource]="dataSource" class="w-full">
+          <!-- Make Column -->
+          <ng-container matColumnDef="make">
+            <th mat-header-cell *matHeaderCellDef>Make</th>
+            <td mat-cell *matCellDef="let vehicle">{{ vehicle.make }}</td>
+          </ng-container>
+  
+          <!-- Model Column -->
+          <ng-container matColumnDef="model">
+            <th mat-header-cell *matHeaderCellDef>Model</th>
+            <td mat-cell *matCellDef="let vehicle">{{ vehicle.model }}</td>
+          </ng-container>
+  
+          <!-- License Plate Column -->
+          <ng-container matColumnDef="licensePlate">
+            <th mat-header-cell *matHeaderCellDef>License Plate</th>
+            <td mat-cell *matCellDef="let vehicle">{{ vehicle.licensePlate }}</td>
+          </ng-container>
+  
+          <!-- Location Column -->
+          <ng-container matColumnDef="location">
+            <th mat-header-cell *matHeaderCellDef>Location</th>
+            <td mat-cell *matCellDef="let vehicle">
+              {{ vehicle.currentLocation.latitude.toFixed(4) }}, {{ vehicle.currentLocation.longitude.toFixed(4) }}
+            </td>
+          </ng-container>
+  
+          <!-- Status Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let vehicle">
+              <span class="px-2 py-1 rounded-full text-xs font-semibold {{ getStatusColor(vehicle.status) }}">
+                {{ vehicle.status }}
+              </span>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  

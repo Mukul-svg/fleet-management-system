@@ -1,0 +1,17 @@
+<div class="app-container" [class.sidebar-open]="isSidebarOpen">
+    <nav class="sidebar">
+      <div class="logo">Customer</div>
+      <ul class="nav-links">
+        <li>
+          <a routerLink="/customer-dashboard" routerLinkActive="active" data-icon="⚠️" (click)="closeSidebar()">Customer</a>
+        </li>
+        <li>
+          <a (click)="logout()" routerLink="/" routerLinkActive="active" data-icon="🚪" (click)="closeSidebar()">Logout</a>
+        </li>
+      </ul>
+    </nav>
+    <main class="main-content">
+      <button class="toggle-button" (click)="toggleSidebar()">☰</button>
+      <router-outlet></router-outlet>
+    </main>
+  </div>

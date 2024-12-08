@@ -1,0 +1,253 @@
+<div class="maintenance-container p-6 bg-sky-100 rounded-lg shadow-md">
+  <h2 class="text-2xl font-bold text-sky-800 mb-4">Maintenance Logs</h2>
+
+  <button
+    (click)="toggleForm()"
+    class="mb-6 bg-sky-700 text-white py-2 px-4 rounded-md shadow hover:bg-sky-800"
+  >
+    {{ isFormVisible ? "Cancel" : "Schedule Maintenance" }}
+  </button>
+
+  <!-- Schedule Maintenance Form -->
+  <div *ngIf="isFormVisible" class="bg-white shadow-md rounded-lg p-6 mb-6">
+    <h2 class="text-xl font-semibold text-sky-700 mb-4">
+      Schedule Maintenance
+    </h2>
+    <form [formGroup]="maintenanceForm" (ngSubmit)="onSubmit()">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Vehicle -->
+        <div class="mb-4">
+          <label for="vehicle" class="block text-sm font-medium text-gray-700"
+            >Vehicle</label
+          >
+          <select
+            id="vehicle"
+            formControlName="vehicle"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          >
+            <option value="" disabled selected>Select a vehicle</option>
+            <option *ngFor="let vehicle of vehicles" [value]="vehicle._id">
+              {{ vehicle.make }} {{ vehicle.model }} ({{
+                vehicle.licensePlate
+              }})
+            </option>
+          </select>
+          <div
+            *ngIf="
+              maintenanceForm.get('vehicle')?.touched &&
+              maintenanceForm.get('vehicle')?.invalid
+            "
+            class="text-red-500 text-sm"
+          >
+            Vehicle is required.
+          </div>
+        </div>
+
+        <!-- Type -->
+        <div class="mb-4">
+          <label for="type" class="block text-sm font-medium text-gray-700"
+            >Type</label
+          >
+          <input
+            type="text"
+            id="type"
+            formControlName="type"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          />
+          <div
+            *ngIf="
+              maintenanceForm.get('type')?.touched &&
+              maintenanceForm.get('type')?.invalid
+            "
+            class="text-red-500 text-sm"
+          >
+            Type is required.
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-4">
+          <label
+            for="description"
+            class="block text-sm font-medium text-gray-700"
+            >Description</label
+          >
+          <textarea
+            id="description"
+            formControlName="description"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          ></textarea>
+          <div
+            *ngIf="
+              maintenanceForm.get('description')?.touched &&
+              maintenanceForm.get('description')?.invalid
+            "
+            class="text-red-500 text-sm"
+          >
+            Description is required.
+          </div>
+        </div>
+
+        <!-- Cost -->
+        <div class="mb-4">
+          <label for="cost" class="block text-sm font-medium text-gray-700"
+            >Cost</label
+          >
+          <input
+            type="number"
+            id="cost"
+            formControlName="cost"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          />
+          <div
+            *ngIf="
+              maintenanceForm.get('cost')?.touched &&
+              maintenanceForm.get('cost')?.invalid
+            "
+            class="text-red-500 text-sm"
+          >
+            Cost is required.
+          </div>
+        </div>
+
+        <!-- Technician -->
+        <div class="mb-4">
+          <label
+            for="technician"
+            class="block text-sm font-medium text-gray-700"
+            >Technician</label
+          >
+          <input
+            type="text"
+            id="technician"
+            formControlName="technician"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          />
+          <div
+            *ngIf="
+              maintenanceForm.get('technician')?.touched &&
+              maintenanceForm.get('technician')?.invalid
+            "
+            class="text-red-500 text-sm"
+          >
+            Technician is required.
+          </div>
+        </div>
+
+        <!-- Next Maintenance Date -->
+        <div class="mb-4">
+          <label
+            for="nextMaintenanceDate"
+            class="block text-sm font-medium text-gray-700"
+            >Next Maintenance Date</label
+          >
+          <input
+            type="date"
+            id="nextMaintenanceDate"
+            formControlName="nextMaintenanceDate"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          />
+          <div
+            *ngIf="
+              maintenanceForm.get('nextMaintenanceDate')?.touched &&
+              maintenanceForm.get('nextMaintenanceDate')?.invalid
+            "
+            class="text-red-500 text-sm"
+          >
+            Next Maintenance Date is required.
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-sky-700 text-white py-2 rounded-md shadow hover:bg-sky-800"
+      >
+        Schedule Maintenance
+      </button>
+    </form>
+  </div>
+
+  <!-- Maintenance Logs Table -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white rounded-lg overflow-hidden shadow-md">
+      <thead>
+        <tr>
+          <th
+            class="px-6 py-3 bg-sky-800 text-left text-xs font-medium text-white uppercase tracking-wider"
+          >
+            Vehicle
+          </th>
+          <th
+            class="px-6 py-3 bg-sky-800 text-left text-xs font-medium text-white uppercase tracking-wider"
+          >
+            Type
+          </th>
+          <th
+            class="px-6 py-3 bg-sky-800 text-left text-xs font-medium text-white uppercase tracking-wider"
+          >
+            Description
+          </th>
+          <th
+            class="px-6 py-3 bg-sky-800 text-left text-xs font-medium text-white uppercase tracking-wider"
+          >
+            Cost
+          </th>
+          <th
+            class="px-6 py-3 bg-sky-800 text-left text-xs font-medium text-white uppercase tracking-wider"
+          >
+            Status
+          </th>
+          <th
+            class="px-6 py-3 bg-sky-800 text-left text-xs font-medium text-white uppercase tracking-wider"
+          >
+            Technician
+          </th>
+          <th
+            class="px-4 py-3 bg-sky-800 text-left text-xs font-medium text-white uppercase tracking-wider"
+          >
+            Next Maintenance Date
+          </th>
+          <th
+            class="px-6 py-3 bg-sky-800 text-left text-xs font-medium text-white uppercase tracking-wider"
+          >
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let maintenance of dataSource.data" class="border-b">
+          <td class="px-6 py-4 whitespace-nowrap">
+            {{ maintenance.vehicle.make }} {{ maintenance.vehicle.model }} ({{
+              maintenance.vehicle.licensePlate
+            }})
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ maintenance.type }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            {{ maintenance.description }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ maintenance.cost }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ maintenance.status }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            {{ maintenance.technician }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            {{ maintenance.nextMaintenanceDate | date : "short" }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <select
+              [value]="maintenance?.status"
+              (change)="onStatusChange(maintenance?._id, $event)"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            >
+              <option value="Scheduled">Scheduled</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

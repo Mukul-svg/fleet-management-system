@@ -1,0 +1,48 @@
+/* src/app/Admin/fleet/fleet.component.scss */
+
+@import '../../../styles/variables.scss';
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: $background-color;
+
+  th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  th {
+    background-color: $secondary-light;
+    color: $text-light;
+  }
+
+  tr:hover {
+    background-color: rgba(186, 230, 253, 0.1);
+  }
+
+  .status {
+    &.bg-green-100 {
+      background-color: #d1fae5;
+      color: #047857;
+    }
+    &.bg-red-100 {
+      background-color: #fee2e2;
+      color: #b91c1c;
+    }
+    &.bg-blue-100 {
+      background-color: #bfdbfe;
+      color: #1d4ed8;
+    }
+    &.bg-gray-100 {
+      background-color: #f3f4f6;
+      color: #6b7280;
+    }
+  }
+}

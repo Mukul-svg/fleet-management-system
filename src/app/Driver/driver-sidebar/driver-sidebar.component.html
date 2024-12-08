@@ -1,0 +1,24 @@
+<div class="app-container" [class.sidebar-open]="isSidebarOpen">
+    <nav class="sidebar">
+      <div class="logo">Fleet Driver</div>
+      <ul class="nav-links">
+        <li>
+          <a routerLink="/driver-dashboard" routerLinkActive="active" data-icon="🏠" (click)="closeSidebar()">
+            Profile</a>
+        </li>
+        <li>
+          <a routerLink="/driver-dashboard/fuel-logs" routerLinkActive="active" data-icon="⛽" (click)="closeSidebar()">Fuel Logs</a>
+        </li>
+        <li>
+          <a routerLink="/driver-dashboard/incidents" routerLinkActive="active" data-icon="⚠️" (click)="closeSidebar()">Incidents</a>
+        </li>
+        <li>
+          <a (click)="logout()" routerLink="/" routerLinkActive="active" data-icon="🚪" (click)="closeSidebar()">Logout</a>
+        </li>
+      </ul>
+    </nav>
+    <main class="main-content">
+      <button class="toggle-button" (click)="toggleSidebar()">☰</button>
+      <router-outlet></router-outlet>
+    </main>
+  </div>

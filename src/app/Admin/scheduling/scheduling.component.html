@@ -1,0 +1,29 @@
+<div class="schedule-container p-6 bg-sky-100 rounded shadow-md">
+    <h2 class="text-2xl font-bold text-sky-800 mb-4">Schedules</h2>
+    <table class="min-w-full bg-white overflow-hidden shadow-md">
+      <thead>
+        <tr>
+          <th class="px-6 py-3 bg-sky-800 text-left text-xs font-medium text-white uppercase tracking-wider">Vehicle</th>
+          <th class="px-6 py-3 bg-sky-800 text-left text-xs font-medium text-white uppercase tracking-wider">Driver</th>
+          <th class="px-6 py-3 bg-sky-800 text-left text-xs font-medium text-white uppercase tracking-wider">Route</th>
+          <th class="px-6 py-3 bg-sky-800 text-left text-xs font-medium text-white uppercase tracking-wider">Start Time</th>
+          <th class="px-6 py-3 bg-sky-800 text-left text-xs font-medium text-white uppercase tracking-wider">End Time</th>
+          <th class="px-6 py-3 bg-sky-800 text-left text-xs font-medium text-white uppercase tracking-wider">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let schedule of dataSource.data" class="border-b">
+          <td class="px-6 py-4 whitespace-nowrap">{{schedule.vehicle.make}} {{schedule.vehicle.model}} ({{schedule.vehicle.licensePlate}})</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{schedule.driver.name}}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{schedule.route.Source}} to {{schedule.route.Destination}}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{schedule.startTime | date:'short'}}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{schedule.endTime | date:'short'}}</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span [ngClass]="getStatusClass(schedule.status)" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
+              {{schedule.status}}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

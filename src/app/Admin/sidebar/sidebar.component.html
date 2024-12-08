@@ -1,0 +1,45 @@
+<div class="app-container" [class.sidebar-open]="isSidebarOpen">
+  <nav class="sidebar">
+    <div class="logo">Fleet Admin</div>
+    <ul class="nav-links">
+      <li>
+        <a routerLink="/admin-dashboard" routerLinkActive="active" data-icon="🏠" (click)="closeSidebar()">
+          Dashboard</a>
+      </li>
+      <li>
+        <a routerLink="/admin-dashboard/fleet" routerLinkActive="active" data-icon="🚗" (click)="closeSidebar()">Fleet Management</a>
+      </li>
+      <li>
+        <a routerLink="/admin-dashboard/drivers" routerLinkActive="active" data-icon="👥" (click)="closeSidebar()">Driver Management</a>
+      </li>
+      <li>
+        <a routerLink="/admin-dashboard/route" routerLinkActive="active" data-icon="🛣️" (click)="closeSidebar()">Routes</a>
+      </li>
+      <li>
+        <a routerLink="/admin-dashboard/schedule" routerLinkActive="active" data-icon="📅" (click)="closeSidebar()">Scheduling</a>
+      </li>
+      <li>
+        <a routerLink="/admin-dashboard/cargo" routerLinkActive="active" data-icon="📦" (click)="closeSidebar()">Cargo Management</a>
+      </li>
+      <li>
+        <a routerLink="/admin-dashboard/fuel-logs" routerLinkActive="active" data-icon="⛽" (click)="closeSidebar()">Fuel Logs</a>
+      </li>
+      <li>
+        <a routerLink="/admin-dashboard/maintenance" routerLinkActive="active" data-icon="🔧" (click)="closeSidebar()">Maintenance</a>
+      </li>
+      <li>
+        <a routerLink="/admin-dashboard/report" routerLinkActive="active" data-icon="📊" (click)="closeSidebar()">Reports</a>
+      </li>
+      <li>
+        <a routerLink="/admin-dashboard/incidents" routerLinkActive="active" data-icon="⚠️" (click)="closeSidebar()">Incidents</a>
+      </li>
+      <li>
+        <a (click)="logout()" routerLink="/" routerLinkActive="active" data-icon="🚪" (click)="closeSidebar()">Logout</a>
+      </li>
+    </ul>
+  </nav>
+  <main class="main-content">
+    <button class="toggle-button" (click)="toggleSidebar()">☰</button>
+    <router-outlet></router-outlet>
+  </main>
+</div>

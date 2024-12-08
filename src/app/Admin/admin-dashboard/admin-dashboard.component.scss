@@ -1,0 +1,37 @@
+/* src/app/Admin/admin-dashboard/admin-dashboard.component.scss */
+
+@import '../../../styles/variables.scss';
+
+.dashboard-container {
+  padding: 2rem 1rem;
+
+  h2 {
+    margin-bottom: 1rem;
+    color: #075985 ;
+  }
+
+  .grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  mat-card {
+    border: 1px solid $primary-color;
+    border-radius: $border-radius;
+    padding: 1rem;
+    background-color: $primary-light;
+    box-shadow: $box-shadow;
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: $primary-dark;
+    }
+
+    .card-content {
+      margin-top: 0.5rem;
+      color: $secondary-color;
+    }
+  }
+}

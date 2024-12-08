@@ -6,6 +6,13 @@
       <p class="text-sky-600">Login to manage your fleet</p>
     </div>
 
+    <!-- Error Message -->
+    <div class="px-6 py-2">
+      <div *ngIf="errorMessage" class="text-red-600">
+        {{ errorMessage }}
+      </div>
+    </div>
+
     <!-- Card Content -->
     <div class="px-6 py-4">
       <form>

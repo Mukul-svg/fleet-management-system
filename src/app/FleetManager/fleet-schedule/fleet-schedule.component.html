@@ -1,0 +1,182 @@
+<div class="fleet-schedule-container p-6 bg-sky-50 rounded shadow-md">
+  <h1 class="text-3xl font-bold text-sky-800 mb-6">Fleet Schedule</h1>
+
+  <button
+    (click)="toggleForm()"
+    class="mb-6 bg-sky-700 text-white py-2 px-4 rounded-md shadow hover:bg-sky-800"
+  >
+    {{ isFormVisible ? 'Cancel' : 'Create New Schedule' }}
+  </button>
+
+  <!-- Create Schedule Form -->
+  <div *ngIf="isFormVisible" class="bg-white shadow-md rounded-lg p-6 mb-6">
+    <h2 class="text-xl font-semibold text-sky-700 mb-4">Create New Schedule</h2>
+
+    <form [formGroup]="createScheduleForm" (ngSubmit)="onSubmit()">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Vehicle -->
+        <div class="mb-4">
+          <label for="vehicle" class="block text-sm font-medium text-gray-700">Vehicle</label>
+          <select
+            id="vehicle"
+            formControlName="vehicle"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          >
+            <option value="" disabled selected>Select a vehicle</option>
+            <option *ngFor="let vehicle of vehicles" [value]="vehicle._id">
+              {{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.licensePlate }})
+            </option>
+          </select>
+          <div *ngIf="createScheduleForm.get('vehicle')?.touched && createScheduleForm.get('vehicle')?.invalid" class="text-red-500 text-sm">
+            Vehicle is required.
+          </div>
+        </div>
+
+        <!-- Driver -->
+        <div class="mb-4">
+          <label for="driver" class="block text-sm font-medium text-gray-700">Driver</label>
+          <select
+            id="driver"
+            formControlName="driver"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          >
+            <option value="" disabled selected>Select a driver</option>
+            <option *ngFor="let driver of drivers" [value]="driver._id">
+              {{ driver.name }}
+            </option>
+          </select>
+          <div *ngIf="createScheduleForm.get('driver')?.touched && createScheduleForm.get('driver')?.invalid" class="text-red-500 text-sm">
+            Driver is required.
+          </div>
+        </div>
+
+        <!-- Route -->
+        <div class="mb-4">
+          <label for="route" class="block text-sm font-medium text-gray-700">Route</label>
+          <select
+            id="route"
+            formControlName="route"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          >
+            <option value="" disabled selected>Select a route</option>
+            <option *ngFor="let route of routes" [value]="route._id">
+              {{ route.Source }} to {{ route.Destination }}
+            </option>
+          </select>
+          <div *ngIf="createScheduleForm.get('route')?.touched && createScheduleForm.get('route')?.invalid" class="text-red-500 text-sm">
+            Route is required.
+          </div>
+        </div>
+
+        <!-- Cargo -->
+        <div class="mb-4">
+          <label for="cargo" class="block text-sm font-medium text-gray-700">Cargo</label>
+          <select
+            id="cargo"
+            formControlName="cargo"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          >
+            <option value="" disabled selected>Select cargo</option>
+            <option *ngFor="let cargo of cargos" [value]="cargo._id">
+              {{ cargo.customer.username }}
+            </option>
+          </select>
+          <div *ngIf="createScheduleForm.get('cargo')?.touched && createScheduleForm.get('cargo')?.invalid" class="text-red-500 text-sm">
+            Cargo is required.
+          </div>
+        </div>
+
+        <!-- Start Time -->
+        <div class="mb-4">
+          <label for="startTime" class="block text-sm font-medium text-gray-700">Start Time</label>
+          <input
+            id="startTime"
+            type="datetime-local"
+            formControlName="startTime"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          />
+          <div *ngIf="createScheduleForm.get('startTime')?.touched && createScheduleForm.get('startTime')?.invalid" class="text-red-500 text-sm">
+            Start Time is required.
+          </div>
+        </div>
+
+        <!-- End Time -->
+        <div class="mb-4">
+          <label for="endTime" class="block text-sm font-medium text-gray-700">End Time</label>
+          <input
+            id="endTime"
+            type="datetime-local"
+            formControlName="endTime"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          />
+          <div *ngIf="createScheduleForm.get('endTime')?.touched && createScheduleForm.get('endTime')?.invalid" class="text-red-500 text-sm">
+            End Time is required.
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-sky-700 text-white py-2 rounded-md shadow hover:bg-sky-800"
+      >
+        Create Schedule
+      </button>
+    </form>
+  </div>
+
+  <!-- Schedule List Table -->
+  <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <table mat-table [dataSource]="dataSource" class="w-full">
+      <!-- Vehicle Column -->
+      <ng-container matColumnDef="vehicle">
+        <th mat-header-cell *matHeaderCellDef>Vehicle</th>
+        <td mat-cell *matCellDef="let schedule">
+          {{ schedule.vehicle.make }} {{ schedule.vehicle.model }} ({{ schedule.vehicle.licensePlate }})
+        </td>
+      </ng-container>
+
+      <!-- Driver Column -->
+      <ng-container matColumnDef="driver">
+        <th mat-header-cell *matHeaderCellDef>Driver</th>
+        <td mat-cell *matCellDef="let schedule">{{ schedule.driver.name }}</td>
+      </ng-container>
+
+      <!-- Route Column -->
+      <ng-container matColumnDef="route">
+        <th mat-header-cell *matHeaderCellDef>Route</th>
+        <td mat-cell *matCellDef="let schedule">{{ schedule.route.Source }} to {{ schedule.route.Destination }}</td>
+      </ng-container>
+
+      <!-- Start Time Column -->
+      <ng-container matColumnDef="startTime">
+        <th mat-header-cell *matHeaderCellDef>Start Time</th>
+        <td mat-cell *matCellDef="let schedule">{{ schedule.startTime | date:'short' }}</td>
+      </ng-container>
+
+      <!-- End Time Column -->
+      <ng-container matColumnDef="endTime">
+        <th mat-header-cell *matHeaderCellDef>End Time</th>
+        <td mat-cell *matCellDef="let schedule">{{ schedule.endTime | date:'short' }}</td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let schedule">
+          <span [ngClass]="getStatusClass(schedule.status)" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
+            {{ schedule.status }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Cargo Column -->
+      <ng-container matColumnDef="cargo">
+        <th mat-header-cell *matHeaderCellDef>Customer</th>
+        <td mat-cell *matCellDef="let schedule">{{getuserName(schedule.cargo[0].customer)}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

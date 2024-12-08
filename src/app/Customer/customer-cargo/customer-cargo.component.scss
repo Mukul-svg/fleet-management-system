@@ -1,0 +1,19 @@
+/* fleet-management-system/src/app/Customer/customer-cargo/customer-cargo.component.scss */
+
+/* Example: Customize table header background color */
+table mat-header-row {
+    background-color: #0ea5e9; /* Tailwind sky-500 */
+    color: white;
+  }
+  
+  table mat-header-cell {
+    font-weight: bold;
+  }
+  
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  td {
+    background-color: white;
+  }

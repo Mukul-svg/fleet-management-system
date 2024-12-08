@@ -1,29 +1,45 @@
 import { Component } from '@angular/core';
-import { RouterEvent, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [RouterLink, CommonModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
   isLoggedIn: boolean = false;
+  dashboardLink: string = '';
 
   ngOnInit() {
     this.checkLoginStatus();
   }
 
-  // Check token in localStorage
   checkLoginStatus() {
     const token = localStorage.getItem('token');
-    this.isLoggedIn = !!token; // Convert to boolean
+    const role = localStorage.getItem('role');
+    this.isLoggedIn = !!token;
+
+    if (role === 'Admin') {
+      this.dashboardLink = '/admin-dashboard';
+    } else if (role === 'FleetManager') {
+      this.dashboardLink = '/fleet-dashboard';
+    } else if (role === 'MaintenanceStaff') {
+      this.dashboardLink = '/maintenance-dashboard';
+    } else if (role === 'Customer') {
+      this.dashboardLink = '/customer-dashboard';
+    } else if (role === 'Driver') {
+      this.dashboardLink = '/driver-dashboard';
+    } else {
+      this.dashboardLink = '/';
+    }
   }
 
-  // Logout method
   logout() {
-    localStorage.removeItem('token'); // Remove the token
-    this.isLoggedIn = false; // Update the UI
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    this.isLoggedIn = false;
   }
 }

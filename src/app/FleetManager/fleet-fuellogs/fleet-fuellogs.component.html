@@ -1,0 +1,196 @@
+<!-- fleet-fuellogs.component.html -->
+<div class="fleet-fuellogs-container p-6 bg-sky-100 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold text-sky-800 mb-4">Fuel Logs</h2>
+  
+    <button
+      (click)="toggleForm()"
+      class="mb-6 bg-sky-700 text-white py-2 px-4 rounded-md shadow hover:bg-sky-800"
+    >
+      {{ isFormVisible ? 'Cancel' : 'Create New Fuel Log' }}
+    </button>
+  
+    <!-- Create Fuel Log Form -->
+    <div *ngIf="isFormVisible" class="bg-white shadow-md rounded-lg p-6 mb-6">
+      <h3 class="text-xl font-semibold text-sky-700 mb-4">Create New Fuel Log</h3>
+      <form [formGroup]="createFuellogForm" (ngSubmit)="onSubmit()">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Vehicle -->
+          <div class="mb-4">
+            <label for="vehicle" class="block text-sm font-medium text-gray-700">Vehicle</label>
+            <select id="vehicle" formControlName="vehicle" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+              <option value="" disabled>Select a vehicle</option>
+              <option *ngFor="let vehicle of vehicles" [value]="vehicle._id">
+                {{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.licensePlate }})
+              </option>
+            </select>
+            <div *ngIf="createFuellogForm.get('vehicle')?.touched && createFuellogForm.get('vehicle')?.invalid" class="text-red-500 text-sm mt-1">
+              Vehicle is required.
+            </div>
+          </div>
+  
+          <!-- Driver -->
+          <div class="mb-4">
+            <label for="driver" class="block text-sm font-medium text-gray-700">Driver</label>
+            <select id="driver" formControlName="driver" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+              <option value="" disabled>Select a driver</option>
+              <option *ngFor="let driver of drivers" [value]="driver._id">
+                {{ driver.name }}
+              </option>
+            </select>
+            <div *ngIf="createFuellogForm.get('driver')?.touched && createFuellogForm.get('driver')?.invalid" class="text-red-500 text-sm mt-1">
+              Driver is required.
+            </div>
+          </div>
+  
+          <!-- Fuel Type -->
+          <div class="mb-4">
+            <label for="fuelType" class="block text-sm font-medium text-gray-700">Fuel Type</label>
+            <input
+              id="fuelType"
+              type="text"
+              formControlName="fuelType"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              placeholder="e.g., Diesel"
+            />
+            <div *ngIf="createFuellogForm.get('fuelType')?.touched && createFuellogForm.get('fuelType')?.invalid" class="text-red-500 text-sm mt-1">
+              Fuel Type is required.
+            </div>
+          </div>
+  
+          <!-- Quantity -->
+          <div class="mb-4">
+            <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity (Liters)</label>
+            <input
+              id="quantity"
+              type="number"
+              formControlName="quantity"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              min="1"
+            />
+            <div *ngIf="createFuellogForm.get('quantity')?.touched && createFuellogForm.get('quantity')?.invalid" class="text-red-500 text-sm mt-1">
+              Quantity must be at least 1.
+            </div>
+          </div>
+  
+          <!-- Cost -->
+          <div class="mb-4">
+            <label for="cost" class="block text-sm font-medium text-gray-700">Cost ($)</label>
+            <input
+              id="cost"
+              type="number"
+              formControlName="cost"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              min="0"
+              step="0.01"
+            />
+            <div *ngIf="createFuellogForm.get('cost')?.touched && createFuellogForm.get('cost')?.invalid" class="text-red-500 text-sm mt-1">
+              Cost must be a positive number.
+            </div>
+          </div>
+  
+          <!-- Location -->
+          <div class="mb-4">
+            <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+            <input
+              id="location"
+              type="text"
+              formControlName="location"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            />
+            <div *ngIf="createFuellogForm.get('location')?.touched && createFuellogForm.get('location')?.invalid" class="text-red-500 text-sm mt-1">
+              Enter a valid location.
+            </div>
+          </div>
+  
+          <!-- Odometer -->
+          <div class="mb-4">
+            <label for="odometer" class="block text-sm font-medium text-gray-700">Odometer (km)</label>
+            <input
+              id="odometer"
+              type="number"
+              formControlName="odometer"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              min="0"
+            />
+            <div *ngIf="createFuellogForm.get('odometer')?.touched && createFuellogForm.get('odometer')?.invalid" class="text-red-500 text-sm mt-1">
+              Odometer must be a non-negative number.
+            </div>
+          </div>
+        </div>
+  
+        <button type="submit" class="w-full bg-sky-700 text-white py-2 rounded-md shadow hover:bg-sky-800">
+          Create Fuel Log
+        </button>
+      </form>
+    </div>
+  
+    <!-- Fuel Logs Table -->
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+      <table mat-table [dataSource]="dataSource" class="w-full">
+  
+        <!-- Vehicle Column -->
+        <ng-container matColumnDef="vehicle">
+          <th mat-header-cell *matHeaderCellDef>Vehicle</th>
+          <td mat-cell *matCellDef="let fuellog">
+            {{ getVehicleDetails(fuellog.vehicle._id) }}
+          </td>
+        </ng-container>
+  
+        <!-- Driver Column -->
+        <ng-container matColumnDef="driver">
+          <th mat-header-cell *matHeaderCellDef>Driver</th>
+          <td mat-cell *matCellDef="let fuellog">
+            {{ getDriverName(fuellog.driver._id) }}
+          </td>
+        </ng-container>
+  
+        <!-- Fuel Type Column -->
+        <ng-container matColumnDef="fuelType">
+          <th mat-header-cell *matHeaderCellDef>Fuel Type</th>
+          <td mat-cell *matCellDef="let fuellog">{{ fuellog.fuelType }}</td>
+        </ng-container>
+  
+        <!-- Quantity Column -->
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef>Quantity (Liters)</th>
+          <td mat-cell *matCellDef="let fuellog">{{ fuellog.quantity }}</td>
+        </ng-container>
+  
+        <!-- Cost Column -->
+        <ng-container matColumnDef="cost">
+          <th mat-header-cell *matHeaderCellDef>Cost ($)</th>
+          <td mat-cell *matCellDef="let fuellog">{{ fuellog.cost | currency }}</td>
+        </ng-container>
+  
+        <!-- Location Column -->
+        <ng-container matColumnDef="location">
+          <th mat-header-cell *matHeaderCellDef>Location</th>
+          <td mat-cell *matCellDef="let fuellog">
+            {{fuellog.location}}
+          </td>
+        </ng-container>
+  
+        <!-- Odometer Column -->
+        <ng-container matColumnDef="odometer">
+          <th mat-header-cell *matHeaderCellDef>Odometer (km)</th>
+          <td mat-cell *matCellDef="let fuellog">{{ fuellog.odometer }}</td>
+        </ng-container>
+  
+        <!-- Date Column -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let fuellog">{{ fuellog.date | date:'short' }}</td>
+        </ng-container>
+  
+        <!-- Header and Row Declarations -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+      </table>
+  
+      <!-- No Data Message -->
+      <div *ngIf="dataSource.data.length === 0" class="p-4 text-center text-gray-500">
+        No fuel logs available.
+      </div>
+    </div>
+  </div>

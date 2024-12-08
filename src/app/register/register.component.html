@@ -6,10 +6,18 @@
       <p class="text-sky-600">Sign up to start managing your fleet</p>
     </div>
 
+    <!-- Error Message -->
+    <div class="px-6 py-2">
+      <div *ngIf="errorMessage" class="text-red-600">
+        {{ errorMessage }}
+      </div>
+    </div>
+
     <!-- Card Content -->
     <div class="px-6 py-4">
       <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
         <div class="space-y-4">
+          <!-- Username -->
           <div>
             <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
             <input
@@ -20,8 +28,15 @@
               required
               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
             />
+            <div
+              *ngIf="signupForm.get('username')?.invalid && signupForm.get('username')?.touched"
+              class="text-red-500 text-sm mt-1"
+            >
+              Username is required.
+            </div>
           </div>
 
+          <!-- Phone Number -->
           <div>
             <label for="phoneno" class="block text-sm font-medium text-gray-700">Phone Number</label>
             <input
@@ -32,20 +47,35 @@
               required
               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
             />
+            <div
+              *ngIf="signupForm.get('phoneno')?.invalid && signupForm.get('phoneno')?.touched"
+              class="text-red-500 text-sm mt-1"
+            >
+              Valid phone number is required.
+            </div>
           </div>
 
+          <!-- Role -->
           <div>
             <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
             <select
               id="role"
               formControlName="role"
               required
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
             >
+              <option value="" disabled selected>Select a role</option>
               <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
             </select>
+            <div
+              *ngIf="signupForm.get('role')?.invalid && signupForm.get('role')?.touched"
+              class="text-red-500 text-sm mt-1"
+            >
+              Role selection is required.
+            </div>
           </div>
 
+          <!-- Email -->
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
             <input
@@ -56,8 +86,15 @@
               required
               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
             />
+            <div
+              *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched"
+              class="text-red-500 text-sm mt-1"
+            >
+              Valid email is required.
+            </div>
           </div>
 
+          <!-- Password -->
           <div>
             <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
             <input
@@ -68,6 +105,12 @@
               required
               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
             />
+            <div
+              *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
+              class="text-red-500 text-sm mt-1"
+            >
+              Password must be at least 6 characters.
+            </div>
           </div>
         </div>
 
@@ -75,7 +118,7 @@
           <button
             type="submit"
             [disabled]="signupForm.invalid"
-            class="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700"
+            class="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700 disabled:opacity-50"
           >
             Sign up
           </button>

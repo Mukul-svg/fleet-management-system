@@ -1,0 +1,101 @@
+<!-- fleet-management-system/src/app/Driver/driver-profile/driver-profile.component.html -->
+
+<div class="min-h-screen bg-gray-100 p-6">
+    <div class=" mx-auto bg-white shadow-md rounded-lg p-8">
+      <h1 class="text-2xl font-bold mb-6">Driver Profile</h1>
+  
+      <div *ngIf="isLoading" class="text-center">
+        <p>Loading...</p>
+      </div>
+  
+      <div *ngIf="error" class="text-red-500 mb-4">
+        {{ error }}
+      </div>
+  
+      <div *ngIf="driver" class="space-y-4">
+        <div class="flex items-center">
+          <h2 class="text-xl font-semibold">Name:</h2>
+          <p class="ml-2">{{ driver.name }}</p>
+        </div>
+  
+        <div class="flex items-center">
+          <h2 class="text-xl font-semibold">License Number:</h2>
+          <p class="ml-2">{{ driver.licenseNumber }}</p>
+        </div>
+  
+        <div class="flex items-center">
+          <h2 class="text-xl font-semibold">Rating:</h2>
+          <p class="ml-2">{{ driver.rating }} / 5</p>
+        </div>
+  
+        <div class="flex items-center">
+          <h2 class="text-xl font-semibold">Status:</h2>
+          <span
+            class="ml-2 px-2 py-1 rounded-full text-white"
+            [ngClass]="{
+              'bg-green-500': driver.status === 'Available',
+              'bg-red-500': driver.status === 'Unavailable',
+              'bg-blue-500': driver.status === 'On Duty'
+            }"
+          >
+            {{ driver.status }}
+          </span>
+        </div>
+  
+        <div class="flex items-center">
+          <h2 class="text-xl font-semibold">License Expiry:</h2>
+          <p class="ml-2">
+            {{ driver.licenseExpiry | date: 'longDate' }}
+          </p>
+        </div>
+  
+        <div class="mt-6">
+          <h3 class="text-lg font-semibold mb-2">Contact Information</h3>
+          <div class="space-y-2">
+            <div class="flex items-center">
+              <span class="font-medium">Phone:</span>
+              <p class="ml-2">{{ driver.contactInfo.phone }}</p>
+            </div>
+            <div class="flex items-center">
+              <span class="font-medium">Email:</span>
+              <p class="ml-2">{{ driver.contactInfo.email }}</p>
+            </div>
+          </div>
+        </div>
+  
+        <div class="mt-6">
+          <h3 class="text-lg font-semibold mb-2">User Information</h3>
+          <div class="space-y-2">
+            <div class="flex items-center">
+              <span class="font-medium">Username:</span>
+              <p class="ml-2">{{ driver.user.username }}</p>
+            </div>
+            <div class="flex items-center">
+              <span class="font-medium">Email:</span>
+              <p class="ml-2">{{ driver.user.email }}</p>
+            </div>
+            <div class="flex items-center">
+              <span class="font-medium">Phone Number:</span>
+              <p class="ml-2">{{ driver.user.phoneNumber }}</p>
+            </div>
+            <div class="flex items-center">
+              <span class="font-medium">Role:</span>
+              <p class="ml-2">{{ driver.user.role }}</p>
+            </div>
+            <div class="flex items-center">
+              <span class="font-medium">Account Status:</span>
+              <span
+                class="ml-2 px-2 py-1 rounded-full text-white"
+                [ngClass]="{
+                  'bg-green-500': driver.user.isActive,
+                  'bg-gray-500': !driver.user.isActive
+                }"
+              >
+                {{ driver.user.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

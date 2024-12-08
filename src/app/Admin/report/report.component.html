@@ -1,0 +1,66 @@
+<div class="w-full px-2 sm:px-0 mx-auto">
+    <h2 class="text-2xl font-bold text-sky-800 mb-4">Reports</h2>
+    <div class="flex space-x-1 rounded-xl bg-sky-800/40 p-1">
+      <button 
+        *ngFor="let type of reportTypes"
+        (click)="setActiveTab(type)"
+        [ngClass]="{
+          'bg-sky-800 shadow': activeTab === type,
+          'text-blue-100 hover:bg-white/[.12] hover:text-white': activeTab !== type
+        }"
+        class="w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-white"
+      >
+        {{ type }}
+      </button>
+    </div>
+  
+    <div class="mt-2 rounded-xl bg-white p-3">
+      <div *ngIf="reportData">
+        <h3 class="text-xl font-semibold mb-4">{{reportData.type}} Report</h3>
+        <div *ngIf="reportData.type === 'Fleet Overview'" class="report-section">
+          <p><strong>Total Vehicles:</strong> {{reportData.data.vehicleStats.totalVehicles}}</p>
+          <p><strong>Total Drivers:</strong> {{reportData.data.driverStats.totalDrivers}}</p>
+          <p><strong>Total Schedules:</strong> {{reportData.data.scheduleStats.totalSchedules}}</p>
+          <p><strong>Completed Schedules:</strong> {{reportData.data.scheduleStats.completedSchedules}}</p>
+          <p><strong>Total Fuel Cost:</strong> {{reportData.data.fuelStats.totalFuelCost}}</p>
+          <p><strong>Total Fuel Quantity:</strong> {{reportData.data.fuelStats.totalFuelQuantity}}</p>
+        </div>
+        <div *ngIf="reportData.type === 'Driver Performance'" class="report-section">
+          <p><strong>Total Drivers:</strong> {{reportData.data.totalDrivers}}</p>
+          <div *ngFor="let driver of reportData.data.driverPerformance" class="mt-2 p-2 border rounded-lg">
+            <p><strong>Name:</strong> {{driver.name}}</p>
+            <p><strong>Rating:</strong> {{driver.rating}}</p>
+            <p><strong>Total Trips:</strong> {{driver.totalTrips}}</p>
+            <p><strong>Completed Trips:</strong> {{driver.completedTrips}}</p>
+            <p><strong>Total Incidents:</strong> {{driver.totalIncidents}}</p>
+            <p><strong>Completion Rate:</strong> {{driver.completionRate}}%</p>
+          </div>
+        </div>
+        <div *ngIf="reportData.type === 'Maintenance Cost'" class="report-section">
+          <p><strong>Total Vehicles Maintained:</strong> {{reportData.data.totalVehiclesMaintained}}</p>
+          <div *ngFor="let cost of reportData.data.maintenanceCosts" class="mt-2 p-2 border rounded-lg">
+            <p><strong>Description:</strong> {{cost.description}}</p>
+            <p><strong>Cost:</strong> {{cost.cost}}</p>
+          </div>
+        </div>
+        <div *ngIf="reportData.type === 'Fuel Efficiency'" class="report-section">
+          <p><strong>Total Vehicles Fueled:</strong> {{reportData.data.totalVehiclesFueled}}</p>
+          <div *ngFor="let fuel of reportData.data.fuelEfficiencyReport" class="mt-2 p-2 border rounded-lg">
+            <p><strong>Vehicle:</strong> {{fuel.vehicle}}</p>
+            <p><strong>Fuel Efficiency:</strong> {{fuel.efficiency}}</p>
+          </div>
+        </div>
+        <div *ngIf="reportData.type === 'Vehicle Utilization'" class="report-section">
+          <p><strong>Total Vehicles:</strong> {{reportData.data.totalVehicles}}</p>
+          <div *ngFor="let vehicle of reportData.data.vehicleUtilization" class="mt-2 p-2 border rounded-lg">
+            <p><strong>Make:</strong> {{vehicle.make}}</p>
+            <p><strong>Model:</strong> {{vehicle.model}}</p>
+            <p><strong>License Plate:</strong> {{vehicle.licensePlate}}</p>
+            <p><strong>Total Schedules:</strong> {{vehicle.totalSchedules}}</p>
+            <p><strong>Total Trip Hours:</strong> {{vehicle.totalTripHours}}</p>
+            <p><strong>Utilization Percentage:</strong> {{vehicle.utilizationPercentage}}%</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

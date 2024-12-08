@@ -1,0 +1,204 @@
+<div class="min-h-screen bg-sky-50">
+  <div class="container mx-auto py-8">
+    <h1 class="text-3xl font-bold text-sky-800 mb-6">Fleet Management</h1>
+
+    <button
+      (click)="isFormVisible = !isFormVisible"
+      class="mb-6 bg-sky-700 text-white py-2 px-4 rounded-md shadow hover:bg-sky-800"
+    >
+      {{ isFormVisible ? 'Cancel' : 'Add New Vehicle' }}
+    </button>
+
+    <!-- Create Vehicle Form -->
+    <div *ngIf="isFormVisible" class="bg-white shadow-md rounded-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold text-sky-700 mb-4">Create New Vehicle</h2>
+
+      <form [formGroup]="createVehicleForm" (ngSubmit)="onSubmit()">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Make -->
+          <div class="mb-4">
+            <label for="make" class="block text-sm font-medium text-gray-700"
+              >Make</label
+            >
+            <input
+              id="make"
+              type="text"
+              formControlName="make"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            />
+          </div>
+
+          <!-- Model -->
+          <div class="mb-4">
+            <label
+              for="model"
+              class="block text-sm font-medium text-gray-700"
+              >Model</label
+            >
+            <input
+              id="model"
+              type="text"
+              formControlName="model"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            />
+          </div>
+
+          <!-- License Plate -->
+          <div class="mb-4">
+            <label
+              for="licensePlate"
+              class="block text-sm font-medium text-gray-700"
+              >License Plate</label
+            >
+            <input
+              id="licensePlate"
+              type="text"
+              formControlName="licensePlate"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            />
+          </div>
+
+          <!-- Status -->
+          <div class="mb-4">
+            <label for="status" class="block text-sm font-medium text-gray-700"
+              >Status</label
+            >
+            <select
+              id="status"
+              formControlName="status"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            >
+              <option value="" disabled>Select Status</option>
+              <option value="Available">Available</option>
+              <option value="In Use">In Use</option>
+              <option value="Maintenance">Maintenance</option>
+              <option value="Unavailable">Unavailable</option>
+            </select>
+          </div>
+
+          <!-- Current Location -->
+          <div class="mb-4 col-span-2">
+            <label class="block text-sm font-medium text-gray-700"
+              >Current Location</label
+            >
+            <div
+              formGroupName="currentLocation"
+              class="grid grid-cols-1 sm:grid-cols-2 gap-4"
+            >
+              <input
+                type="number"
+                formControlName="latitude"
+                placeholder="Latitude"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              />
+              <input
+                type="number"
+                formControlName="longitude"
+                placeholder="Longitude"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              />
+            </div>
+          </div>
+
+          <!-- Year -->
+          <div class="mb-4">
+            <label for="year" class="block text-sm font-medium text-gray-700"
+              >Year</label
+            >
+            <input
+              id="year"
+              type="number"
+              formControlName="year"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            />
+          </div>
+
+          <!-- Fuel Type -->
+          <div class="mb-4">
+            <label
+              for="fuelType"
+              class="block text-sm font-medium text-gray-700"
+              >Fuel Type</label
+            >
+            <input
+              id="fuelType"
+              type="text"
+              formControlName="fuelType"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            />
+          </div>
+
+          <!-- Capacity -->
+          <div class="mb-4">
+            <label
+              for="capacity"
+              class="block text-sm font-medium text-gray-700"
+              >Capacity</label
+            >
+            <input
+              id="capacity"
+              type="number"
+              formControlName="capacity"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-sky-700 text-white py-2 rounded-md shadow hover:bg-sky-800"
+        >
+          Create Vehicle
+        </button>
+      </form>
+    </div>
+
+    <!-- Vehicle List Table -->
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+      <table mat-table [dataSource]="dataSource" class="w-full">
+        <!-- Make Column -->
+        <ng-container matColumnDef="make">
+          <th mat-header-cell *matHeaderCellDef>Make</th>
+          <td mat-cell *matCellDef="let vehicle">{{ vehicle.make }}</td>
+        </ng-container>
+
+        <!-- Model Column -->
+        <ng-container matColumnDef="model">
+          <th mat-header-cell *matHeaderCellDef>Model</th>
+          <td mat-cell *matCellDef="let vehicle">{{ vehicle.model }}</td>
+        </ng-container>
+
+        <!-- License Plate Column -->
+        <ng-container matColumnDef="licensePlate">
+          <th mat-header-cell *matHeaderCellDef>License Plate</th>
+          <td mat-cell *matCellDef="let vehicle">{{ vehicle.licensePlate }}</td>
+        </ng-container>
+
+        <!-- Location Column -->
+        <ng-container matColumnDef="location">
+          <th mat-header-cell *matHeaderCellDef>Location</th>
+          <td mat-cell *matCellDef="let vehicle">
+            {{ vehicle.currentLocation.latitude.toFixed(4) }}, {{
+              vehicle.currentLocation.longitude.toFixed(4)
+            }}
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let vehicle">
+            <span
+              class="px-2 py-1 rounded-full text-xs font-semibold {{ getStatusColor(vehicle.status) }}"
+            >
+              {{ vehicle.status }}
+            </span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </div>
+</div>
