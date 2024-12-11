@@ -36,13 +36,6 @@
             <p><strong>Completion Rate:</strong> {{driver.completionRate}}%</p>
           </div>
         </div>
-        <div *ngIf="reportData.type === 'Maintenance Cost'" class="report-section">
-          <p><strong>Total Vehicles Maintained:</strong> {{reportData.data.totalVehiclesMaintained}}</p>
-          <div *ngFor="let cost of reportData.data.maintenanceCosts" class="mt-2 p-2 border rounded-lg">
-            <p><strong>Description:</strong> {{cost.description}}</p>
-            <p><strong>Cost:</strong> {{cost.cost}}</p>
-          </div>
-        </div>
         <div *ngIf="reportData.type === 'Fuel Efficiency'" class="report-section">
           <p><strong>Total Vehicles Fueled:</strong> {{reportData.data.totalVehiclesFueled}}</p>
           <div *ngFor="let fuel of reportData.data.fuelEfficiencyReport" class="mt-2 p-2 border rounded-lg">
@@ -58,7 +51,6 @@
             <p><strong>License Plate:</strong> {{vehicle.licensePlate}}</p>
             <p><strong>Total Schedules:</strong> {{vehicle.totalSchedules}}</p>
             <p><strong>Total Trip Hours:</strong> {{vehicle.totalTripHours}}</p>
-            <p><strong>Utilization Percentage:</strong> {{vehicle.utilizationPercentage}}%</p>
           </div>
         </div>
       </div>

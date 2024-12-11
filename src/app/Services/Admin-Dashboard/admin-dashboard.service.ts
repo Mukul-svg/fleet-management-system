@@ -103,4 +103,13 @@ export class DashboardService {
   createCargo(cargoData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/cargo`, cargoData);
   }
+
+  reportIncident(incidentData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/incidents`, incidentData);
+  }
+
+  updateIncidentStatus(incidentId: string, resolutionStatus: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/incidents/${incidentId}/status`, { resolutionStatus });
+  }
+
 }

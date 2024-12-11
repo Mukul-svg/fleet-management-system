@@ -5,11 +5,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-maintenance-staff',
   standalone: true,
-  imports: [CommonModule, MatTableModule, ReactiveFormsModule],
+  imports: [CommonModule, MatTableModule, ReactiveFormsModule, FormsModule],
   templateUrl: './maintenance-staff.component.html',
   styleUrls: ['./maintenance-staff.component.scss']
 })

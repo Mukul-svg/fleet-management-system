@@ -1,50 +1,177 @@
-<div class="w-full px-2 sm:px-0 mx-auto">
-    <h2 class="text-2xl font-bold text-sky-800 mb-4">Incidents</h2>
-    <div class="flex space-x-1 rounded-xl bg-sky-800/40 p-1">
-      <button 
-        *ngFor="let status of incidentStatuses"
-        (click)="setActiveTab(status)"
-        [ngClass]="{
-          'bg-sky-800 shadow': activeTab === status,
-          'text-blue-100 hover:bg-white/[.12] hover:text-white': activeTab !== status
-        }"
-        class="w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-white"
+<!-- src/app/FleetManager/fleet-incidents/fleet-incidents.component.html -->
+<div class="mx-auto bg-white p-6 rounded-lg shadow-md">
+  <h2 class="text-2xl font-semibold text-sky-800 mb-4">Fleet Incidents</h2>
+
+  <!-- Report Incident Form -->
+  <form [formGroup]="reportIncidentForm" (ngSubmit)="onSubmit()" class="mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <label for="vehicle" class="block text-sm font-medium text-gray-700"
+          >Vehicle</label
+        >
+        <select
+          id="vehicle"
+          formControlName="vehicle"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+        >
+          <option value="" disabled selected>Select vehicle</option>
+          <option *ngFor="let vehicle of vehicles" [value]="vehicle._id">
+            {{ vehicle.make }} {{ vehicle.model }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            reportIncidentForm.get('vehicle')?.touched &&
+            reportIncidentForm.get('vehicle')?.invalid
+          "
+          class="text-red-500 text-sm mt-1"
+        >
+          Vehicle selection is required.
+        </div>
+      </div>
+
+      <div>
+        <label for="driver" class="block text-sm font-medium text-gray-700"
+          >Driver</label
+        >
+        <select
+          id="driver"
+          formControlName="driver"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+        >
+          <option value="" disabled selected>Select driver</option>
+          <option *ngFor="let driver of drivers" [value]="driver._id">
+            {{ driver.name }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            reportIncidentForm.get('driver')?.touched &&
+            reportIncidentForm.get('driver')?.invalid
+          "
+          class="text-red-500 text-sm mt-1"
+        >
+          Driver selection is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <label for="description" class="block text-sm font-medium text-gray-700"
+        >Description</label
       >
-        {{ status }}
-      </button>
-    </div>
-  
-    <div class="mt-2 rounded-xl bg-white p-3">
-      <div *ngIf="getFilteredIncidents().length > 0">
-        <table class="min-w-full divide-y divide-gray-200 mx-auto">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Driver</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr *ngFor="let incident of getFilteredIncidents()" [attr.data-id]="incident._id">
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                {{incident.vehicle.make}} {{incident.vehicle.model}}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{incident.driver.name}}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{incident.description}}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{incident.date | date:'short'}}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div *ngIf="getFilteredIncidents().length === 0" class="text-center text-gray-500">
-        No incidents found for {{activeTab}} status.
+      <textarea
+        id="description"
+        formControlName="description"
+        rows="4"
+        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+        placeholder="Describe the incident..."
+      ></textarea>
+      <div
+        *ngIf="
+          reportIncidentForm.get('description')?.touched &&
+          reportIncidentForm.get('description')?.invalid
+        "
+        class="text-red-500 text-sm mt-1"
+      >
+        Description is required.
       </div>
     </div>
+
+    <button
+      type="submit"
+      [disabled]="reportIncidentForm.invalid"
+      class="mt-6 w-full bg-sky-700 text-white py-2 rounded-md shadow hover:bg-sky-800"
+    >
+      Submit Incident
+    </button>
+  </form>
+
+  <!-- Tabs for Incident Status -->
+  <div class="mb-4">
+    <button
+      *ngFor="let status of incidentStatuses"
+      (click)="setActiveTab(status)"
+      [class.bg-sky-700]="activeTab === status"
+      [class.text-white]="activeTab === status"
+      [class.bg-gray-200]="activeTab !== status"
+      class="px-4 py-2 mr-2 rounded-md text-sm font-medium focus:outline-none"
+    >
+      {{ status }}
+    </button>
   </div>
+
+  <!-- Existing Incidents Table -->
+  <div *ngIf="getFilteredIncidents().length > 0" class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            Vehicle
+          </th>
+          <th
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            Driver
+          </th>
+          <th
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            Description
+          </th>
+          <th
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            Date
+          </th>
+          <th
+            *ngIf="isFleetManager"
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            Resolution Status
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <tr *ngFor="let incident of getFilteredIncidents()">
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            {{ incident.vehicle.make }} {{ incident.vehicle.model }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            {{ incident.driver.name }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            {{ incident.description }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            {{ incident.date | date : "shortDate" }}
+          </td>
+          <td
+            *ngIf="isFleetManager"
+            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+          >
+            <select
+              #statusSelect
+              [value]="incident.resolutionStatus"
+              (change)="updateStatus(incident._id, statusSelect.value)"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            >
+              <option *ngFor="let status of incidentStatuses" [value]="status">
+                {{ status }}
+              </option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div
+    *ngIf="getFilteredIncidents().length === 0"
+    class="text-center text-gray-500 mt-4"
+  >
+    No incidents found for {{ activeTab }} status.
+  </div>
+</div>

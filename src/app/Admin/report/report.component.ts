@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
-  reportTypes = ['Fleet Overview', 'Driver Performance', 'Maintenance Cost', 'Fuel Efficiency', 'Vehicle Utilization'];
+  reportTypes = ['Fleet Overview', 'Driver Performance', 'Fuel Efficiency', 'Vehicle Utilization'];
   activeTab = this.reportTypes[0];
   reportData: any;
 
