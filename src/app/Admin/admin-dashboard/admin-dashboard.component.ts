@@ -22,25 +22,25 @@ export class AdminDashboardComponent {
   cards = [
     {
       title: 'Total Drivers',
-      icon: 'group', // Replace with Lucide icon if needed
+      icon: 'group',
       count: 0,
       color: 'text-sky-800',
     },
     {
       title: 'Pending Cargo',
-      icon: 'inventory', // Replace with Lucide icon if needed
+      icon: 'inventory',
       count: 0,
       color: 'text-sky-800',
     },
     {
       title: 'Total Vehicles',
-      icon: 'local_shipping', // Replace with Lucide icon if needed
+      icon: 'local_shipping',
       count: 0,
       color: 'text-sky-800',
     },
     {
       title: 'Open Incidents',
-      icon: 'warning', // Replace with Lucide icon if needed
+      icon: 'warning',
       count: 0,
       color: 'text-sky-800',
     },
